@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local profile fixture</title>
+  <style>
+    body { font: 16px system-ui, sans-serif; max-width: 680px; margin: 2rem auto; padding: 0 1rem; color: #17232d; background: #fff; }
+    h1 { font-size: 1.5rem; }
+    ul { padding: 0; list-style: none; }
+    li { padding: .75rem 0; border-bottom: 1px solid #d5dce1; }
+    button { padding: .65rem 1rem; border: 1px solid #176b58; border-radius: 4px; background: #176b58; color: white; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    #status { min-height: 1.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Profiles</h1>
+    <ul id="profiles"></ul>
+    <div id="controls"></div>
+    <p id="status" role="status"></p>
+  </main>
+  <script>
+    let token = "expired-token";
+    let cursor = "";
+    let pages = 0;
+    const seenCursors = new Set();
+    const seenIds = new Set();
+    const list = document.querySelector("#profiles");
+    const controls = document.querySelector("#controls");
+    const status = document.querySelector("#status");
+
+    async function fetchPage(pageCursor) {
+      let refreshes = 0;
+      let rateLimits = 0;
+      for (;;) {
+        const response = await fetch(`/profiles?cursor=${encodeURIComponent(pageCursor)}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (response.status === 401 && refreshes++ < 1) {
+          const refreshed = await fetch("/refresh", { method: "POST" });
+          if (!refreshed.ok) throw new Error("Session refresh failed");
+          token = (await refreshed.json()).access_token;
+          continue;
+        }
+        if (response.status === 429 && rateLimits++ < 3) {
+          const seconds = Math.max(0, Number(response.headers.get("Retry-After") || "0"));
+          await new Promise(resolve => setTimeout(resolve, seconds * 1000));
+          continue;
+        }
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      }
+    }
+
+    async function loadMore() {
+      const button = controls.querySelector("button");
+      if (button) button.disabled = true;
+      status.textContent = "Loading...";
+      try {
+        const page = await fetchPage(cursor);
+        if (!Array.isArray(page.profiles) || typeof page.next_cursor !== "string") {
+          throw new Error("Invalid page schema");
+        }
+        seenCursors.add(cursor);
+        pages += 1;
+        for (const profile of page.profiles) {
+          if (!profile || !profile.id || !profile.name || seenIds.has(profile.id)) continue;
+          seenIds.add(profile.id);
+          const item = document.createElement("li");
+          item.textContent = `${profile.name} (${profile.id})`;
+          list.append(item);
+        }
+        cursor = page.next_cursor;
+        const next = document.createElement("button");
+        next.type = "button";
+        next.textContent = "Load more";
+        next.addEventListener("click", loadMore);
+        if (button) button.replaceWith(next);
+        else controls.append(next);
+        if (!cursor || seenCursors.has(cursor) || pages >= 3) {
+          next.remove();
+          status.textContent = "Finished";
+        } else {
+          status.textContent = `${seenIds.size} profiles`;
+        }
+      } catch (error) {
+        status.textContent = error.message;
+        if (button) button.disabled = false;
+      }
+    }
+
+    loadMore();
+  </script>
+</body>
+</html>
