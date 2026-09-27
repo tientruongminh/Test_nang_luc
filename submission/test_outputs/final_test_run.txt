@@ -1,0 +1,28 @@
+test_429_and_401_are_retried_with_refresh (q2_crawler.tests.test_crawler.CrawlerTests.test_429_and_401_are_retried_with_refresh) ... ok
+test_cursor_loop_stops_safely_and_logs_invalid_schema (q2_crawler.tests.test_crawler.CrawlerTests.test_cursor_loop_stops_safely_and_logs_invalid_schema) ... ok
+test_duplicate_profile_is_deduped (q2_crawler.tests.test_crawler.CrawlerTests.test_duplicate_profile_is_deduped) ... ok
+test_empty_next_cursor_ends_normally (q2_crawler.tests.test_crawler.CrawlerTests.test_empty_next_cursor_ends_normally) ... ok
+test_fixture_serves_load_more_page (q2_crawler.tests.test_crawler.CrawlerTests.test_fixture_serves_load_more_page) ... ok
+test_missing_page_schema_stops_without_writing_invalid_jsonl (q2_crawler.tests.test_crawler.CrawlerTests.test_missing_page_schema_stops_without_writing_invalid_jsonl) ... ok
+test_rate_limit_retry_has_budget (q2_crawler.tests.test_crawler.CrawlerTests.test_rate_limit_retry_has_budget) ... ok
+test_retry_after_seconds_are_obeyed (q2_crawler.tests.test_crawler.CrawlerTests.test_retry_after_seconds_are_obeyed) ... ok
+test_cross_tenant_resume_is_denied (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_cross_tenant_resume_is_denied) ... ok
+test_fan_in_succeeds_only_after_all_required_branches_succeed (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_fan_in_succeeds_only_after_all_required_branches_succeed) ... ok
+test_fan_in_treats_missing_branch_as_unknown (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_fan_in_treats_missing_branch_as_unknown) ... ok
+test_fan_in_waits_for_unknown_required_branch (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_fan_in_waits_for_unknown_required_branch) ... ok
+test_new_run_uses_new_active_graph_without_rewriting_old_run (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_new_run_uses_new_active_graph_without_rewriting_old_run) ... ok
+test_pinned_run_does_not_move_to_new_active_graph (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_pinned_run_does_not_move_to_new_active_graph) ... ok
+test_same_run_id_cannot_be_resumed_by_other_tenant_even_if_graph_name_matches (q3_agent_runtime_tests.tests.test_q3.AgentRuntimeContractTests.test_same_run_id_cannot_be_resumed_by_other_tenant_even_if_graph_name_matches) ... ok
+test_crash_after_object_write_can_retry_without_duplicate_object (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_crash_after_object_write_can_retry_without_duplicate_object) ... ok
+test_duplicate_same_content_different_filename_is_not_new_version (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_duplicate_same_content_different_filename_is_not_new_version) ... ok
+test_empty_or_poison_document_does_not_retry_forever (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_empty_or_poison_document_does_not_retry_forever) ... ok
+test_failure_after_version_insert_rolls_back_without_orphan_rows (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_failure_after_version_insert_rolls_back_without_orphan_rows) ... ok
+test_job_task_identity_is_stable_across_retryable_failure (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_job_task_identity_is_stable_across_retryable_failure) ... ok
+test_modified_pdf_creates_new_document_version_and_downstream_jobs (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_modified_pdf_creates_new_document_version_and_downstream_jobs) ... ok
+test_outbox_dispatch_failure_leaves_event_pending_for_retry (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_outbox_dispatch_failure_leaves_event_pending_for_retry) ... ok
+test_same_bytes_under_different_document_keys_have_distinct_versions (q5_document_pipeline.tests.test_pipeline.DocumentPipelineTests.test_same_bytes_under_different_document_keys_have_distinct_versions) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 4.073s
+
+OK
